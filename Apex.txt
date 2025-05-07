@@ -1,0 +1,87 @@
+calc.apxc
+
+public class calc {
+    public Double val1 {get; set;}
+    public Double val2 {get; set;}
+    public Double result {get; set;}
+    public String func {get; set;}
+
+    public calc() {
+        // Default constructor
+    }
+
+    public void find() {
+        if (val2 == 0 && func == 'div') {
+            result = null;  
+            return;
+        }
+
+        if (func == 'add') {
+            result = val1 + val2;
+        } 
+        else if (func == 'sub') {
+            result = val1 - val2;
+        } 
+        else if (func == 'div') {
+            result = val1 / val2;
+        }
+        
+        else if(func =='G&L'){
+            if(val1>val2){
+                result =val1;
+            }
+            else{
+                result =val2;
+            }
+        }
+    }
+}
+
+
+calci.vfp
+
+<apex:page controller="calc">
+    <apex:form>
+        <apex:pageBlock title="Calculator" mode="edit">
+            <apex:pageBlockSection>
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel value="Value 1"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem>
+                    <apex:inputText value="{!val1}"/>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel value="Value 2"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem>
+                    <apex:inputText value="{!val2}"/>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel value="Select Operation"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem>
+                    <apex:selectRadio value="{!func}" layout="pageDirection">
+                        <apex:selectOption itemValue="add" itemLabel="Add"/>
+                        <apex:selectOption itemValue="sub" itemLabel="Subtract"/>
+                        <apex:selectOption itemValue="div" itemLabel="Division"/>
+                        <apex:selectOption itemValue="G&L" itemLabel="greaterandlowernumber"/>
+                    </apex:selectRadio>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel value="Result"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem>
+                    <apex:inputText value="{!result}" id="res"/>
+                    <apex:actionStatus id="sts" startText="Finding..."/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons>
+                <apex:commandButton value="Execute" action="{!find}" reRender="res" status="sts"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
